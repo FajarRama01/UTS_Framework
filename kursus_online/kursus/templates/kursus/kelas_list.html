@@ -1,0 +1,30 @@
+{% extends 'kursus/base.html' %}
+{% block title %}Daftar Kelas - MiniLMS{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Daftar Kelas</h2>
+    <a href="{% url 'kelas-create' %}" class="btn btn-primary">+ Tambah Kelas</ a>
+</div>
+<div class="row g-3">
+    {% for kelas in object_list %}
+    <div class="col-md-4">
+        <div class="card p-3 h-100">
+            <h5>{{ kelas.judul }}</h5>
+            <p class="mb-1 text-muted">{{ kelas.get_tingkat_display }} |
+                Instruktur: {{ kelas.instruktur.nama }}</p>
+            <p>{{ kelas.deskripsi|truncatewords:18 }}</p>
+            <div class="mt-auto d-flex gap-2">
+                <a href="{% url 'kelas-detail' kelas.pk %}" class="btn btn-outlineprimary btn-sm">Detail</a>
+                <a href="{% url 'kelas-update' kelas.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'kelas-delete' kelas.pk %}" class="btn btn-danger btn-sm">Hapus</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    10
+    <div class="col-12">
+        <div class="alert alert-secondary">Belum ada kelas.</ div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock %}

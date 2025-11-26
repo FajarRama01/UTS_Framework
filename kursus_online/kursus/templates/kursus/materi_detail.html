@@ -1,0 +1,15 @@
+{% extends 'kursus/base.html' %}
+{% block title %}Detail Materi - {{ object.judul }}{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h3>{{ object.judul }}</h3>
+    <p><strong>Kelas:</strong> {{ object.kelas.judul }}</p>
+    <p><strong>Urutan:</strong> {{ object.urutan }}</p>
+    <div class="mt-3">{{ object.isi|linebreaks }}</div>
+    <div class="mt-4">
+        <a href="{% url 'materi-update' object.pk %}" class="btn btnwarning">Edit</a>
+        <a href="{% url 'materi-delete' object.pk %}" class="btn btndanger">Hapus</a>
+        <a href="{% url 'materi-list' %}" class="btn btn-secondary">Kembali</a>
+    </div>
+</div>
+{% endblock %}

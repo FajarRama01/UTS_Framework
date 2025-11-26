@@ -1,0 +1,33 @@
+{% extends 'kursus/base.html' %}
+{% block title %}Dashboard Kursus{% endblock %}
+{% block content %}
+<h2 class="mb-4">Dashboard Kursus Online</h2>
+
+<div class="row g-3">
+
+  <div class="col-md-4">
+    <div class="card p-3">
+      <h4>Instruktur</h4>
+      <p class="text-muted">Kelola data instruktur</p>
+      <a href="{% url 'instruktur-list' %}" class="btn btn-primary">Lihat</a>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card p-3">
+      <h4>Kelas</h4>
+      <p class="text-muted">Kelola data kelas pelatihan</p>
+      <a href="{% url 'kelas-list' %}" class="btn btn-primary">Lihat</a>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card p-3">
+      <h4>Materi</h4>
+      <p class="text-muted">Kelola materi pembelajaran</p>
+      <a href="{% url 'materi-list' %}" class="btn btn-primary">Lihat</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

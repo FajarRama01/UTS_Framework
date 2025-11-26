@@ -1,0 +1,30 @@
+{% extends 'kursus/base.html' %}
+{% block title %}Daftar Instruktur - MiniLMS{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Daftar Instruktur</h2>
+    <a href="{% url 'instruktur-create' %}" class="btn btn-primary">+ Tambah
+        Instruktur</a>
+</div>
+<div class="row g-3">
+    {% for instruktur in object_list %}
+    <div class="col-md-4">
+        <div class="card p-3 h-100">
+            <h5 class="mb-1">{{ instruktur.nama }}</h5>
+            <p class="mb-1"><small class="text-muted">Keahlian:
+                    {{ instruktur.keahlian }}</small></p>
+            <p class="mb-2"><small>{{ instruktur.email }}</small></p>
+            <div class="mt-auto d-flex gap-2">
+                <a href="{% url 'instruktur-detail' instruktur.pk %}" class="btn btnoutline-primary btn-sm">Detail</a>
+                <a href="{% url 'instruktur-update' instruktur.pk %}" class="btn btnwarning btn-sm">Edit</a>
+                <a href="{% url 'instruktur-delete' instruktur.pk %}" class="btn btndanger btn-sm">Hapus</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-secondary">Belum ada instruktur.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

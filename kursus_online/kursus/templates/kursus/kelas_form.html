@@ -1,0 +1,15 @@
+{% extends 'kursus/base.html' %}
+{% block title %}Form Kelas - MiniLMS{% endblock %}
+{% block content %}
+<div class="card p-4">
+    <h3>{% if object %}Edit Kelas{% else %}Tambah Kelas{% endif %}</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="mt-3">
+            <button class="btn btn-primary">Simpan</button>
+            <a href="{% url 'kelas-list' %}" class="btn btn-secondary">Batal</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

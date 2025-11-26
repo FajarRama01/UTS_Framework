@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 from .views import (
 InstrukturListView, InstrukturDetailView, InstrukturCreateView,
 InstrukturUpdateView, InstrukturDeleteView,
@@ -10,6 +11,7 @@ MateriUpdateView, MateriDeleteView
 
 
 urlpatterns = [
+path('', TemplateView.as_view(template_name='kursus/dashboard.html'), name='kursus-dashboard'),
 # Instruktur
 path('instruktur/', InstrukturListView.as_view(), name='instruktur-list'),
 path('instruktur/tambah/', InstrukturCreateView.as_view(), name='instruktur-create'),
