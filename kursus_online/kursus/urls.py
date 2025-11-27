@@ -20,14 +20,12 @@ path('instruktur/<int:pk>/', InstrukturDetailView.as_view(), name='instruktur-de
 path('instruktur/<int:pk>/edit/', InstrukturUpdateView.as_view(), name='instruktur-update'),
 path('instruktur/<int:pk>/hapus/', InstrukturDeleteView.as_view(), name='instruktur-delete'),
 
-
 # Kelas
 path('kelas/', KelasListView.as_view(), name='kelas-list'),
 path('kelas/tambah/', KelasCreateView.as_view(), name='kelas-create'),
 path('kelas/<int:pk>/', KelasDetailView.as_view(), name='kelas-detail'),
 path('kelas/<int:pk>/edit/', KelasUpdateView.as_view(), name='kelas-update'),
 path('kelas/<int:pk>/hapus/', KelasDeleteView.as_view(), name='kelas-delete'),
-
 
 # Materi
 path('materi/', MateriListView.as_view(), name='materi-list'),

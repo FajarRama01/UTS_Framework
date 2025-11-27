@@ -14,10 +14,7 @@ from .serializers import InstrukturSerializer, KelasSerializer, MateriSerializer
 from .forms import InstrukturForm, KelasForm, MateriForm
 
 
-# ----------------------------
 # HTML VIEWS
-# ----------------------------
-
 
 # Instruktur CRUD HTML
 class InstrukturListView(ListView):
