@@ -1,16 +1,37 @@
 {% extends 'kursus/base.html' %}
-{% block title %}Detail Instruktur - {{ object.nama }}{% endblock %}
+{% block title %}Detail Instruktur{% endblock %}
+
 {% block content %}
-<div class="card p-4">
-    <h3 class="mb-2">{{ object.nama }}</h3>
+
+<div class="card shadow-sm p-4 rounded-4">
+  <h3 class="fw-bold">{{ object.nama }}</h3>
+
+  <div class="mt-3">
     <p><strong>Email:</strong> {{ object.email }}</p>
     <p><strong>Keahlian:</strong> {{ object.keahlian }}</p>
-    <p><strong>Tanggal Bergabung:</strong> {{ object.tanggal_bergabung|date:'d
-        M Y' }}</p>
-    <div class="mt-3">
-        <a href="{% url 'instruktur-update' object.pk %}" class="btn btnwarning">Edit</a>
-        <a href="{% url 'instruktur-delete' object.pk %}" class="btn btndanger">Hapus</a>
-        <a href="{% url 'instruktur-list' %}" class="btn btn-secondary">Kembali</ a>
-    </div>
+    <p><strong>Tanggal Bergabung:</strong> {{ object.tanggal_bergabung|date:"d M Y" }}</p>
+  </div>
+
+  <hr>
+
+  <h5 class="fw-bold mt-3">📚 Kelas yang Diampu</h5>
+
+  <ul class="list-group mt-2">
+    {% for kelas in object.kelas.all %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span>{{ kelas.judul }}</span>
+      <a href="{% url 'kelas-detail' kelas.pk %}" class="btn btn-sm btn-outline-primary">Lihat</a>
+    </li>
+    {% empty %}
+    <p class="text-muted">Instruktur ini belum memiliki kelas.</p>
+    {% endfor %}
+  </ul>
+
+  <div class="mt-4 d-flex gap-2">
+    <a href="{% url 'instruktur-update' object.pk %}" class="btn btn-warning text-white">Edit</a>
+    <a href="{% url 'instruktur-delete' object.pk %}" class="btn btn-danger">Hapus</a>
+    <a href="{% url 'instruktur-list' %}" class="btn btn-secondary">Kembali</a>
+  </div>
 </div>
+
 {% endblock %}

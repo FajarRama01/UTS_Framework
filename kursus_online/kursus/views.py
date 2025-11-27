@@ -4,6 +4,9 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
 
 
 from .models import Instruktur, Kelas, Materi
@@ -92,12 +95,46 @@ class InstrukturViewSet(viewsets.ModelViewSet):
     queryset = Instruktur.objects.all()
     serializer_class = InstrukturSerializer
 
+    @action(detail=False, methods=['post'])
+    def bulk(self, request):
+        serializer = InstrukturSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Bulk insert berhasil", "data": serializer.data})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class KelasViewSet(viewsets.ModelViewSet):
     queryset = Kelas.objects.all()
     serializer_class = KelasSerializer
 
+    @action(detail=False, methods=['post'])
+    def bulk(self, request):
+        serializer = KelasSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Bulk insert berhasil", "data": serializer.data})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class MateriViewSet(viewsets.ModelViewSet):
     queryset = Materi.objects.all()
     serializer_class = MateriSerializer
+
+    @action(detail=False, methods=['post'])
+    def bulk(self, request):
+        serializer = MateriSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Bulk insert berhasil", "data": serializer.data},
+                            status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def dashboard(request):
+    data = {
+        "total_instruktur": Instruktur.objects.count(),
+        "total_kelas": Kelas.objects.count(),
+        "total_materi": Materi.objects.count(),
+        "kelas_terbaru": Kelas.objects.order_by('-tanggal_mulai')[:3]
+    }
+    return render(request, "kursus/dashboard.html", data)

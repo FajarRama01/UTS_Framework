@@ -6,11 +6,12 @@ InstrukturUpdateView, InstrukturDeleteView,
 KelasListView, KelasDetailView, KelasCreateView,
 KelasUpdateView, KelasDeleteView,
 MateriListView, MateriDetailView, MateriCreateView,
-MateriUpdateView, MateriDeleteView
+MateriUpdateView, MateriDeleteView, dashboard
 )
 
 
 urlpatterns = [
+path('', dashboard, name="dashboard"),
 path('', TemplateView.as_view(template_name='kursus/dashboard.html'), name='kursus-dashboard'),
 # Instruktur
 path('instruktur/', InstrukturListView.as_view(), name='instruktur-list'),

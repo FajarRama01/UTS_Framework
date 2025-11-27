@@ -1,14 +1,22 @@
 {% extends 'kursus/base.html' %}
-{% block title %}Hapus Instruktur - {{ object.nama }}{% endblock %}
+{% block title %}Hapus Instruktur{% endblock %}
+
 {% block content %}
-<div class="card p-4">
-    <h4 class="text-danger">Konfirmasi Hapus</h4>
-    <p>Apakah anda yakin ingin menghapus instruktur: <strong>{{ object.nama }}
-        </strong>?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Ya, Hapus</button>
-        <a href="{% url 'instruktur-detail' object.pk %}" class="btn btnsecondary">Batal</a>
-    </form>
+<div class="card shadow-sm p-4 rounded-4">
+
+  <h4 class="text-danger fw-bold">Konfirmasi Hapus</h4>
+
+  <p>Apakah Anda yakin ingin menghapus instruktur:</p>
+
+  <p><strong>{{ object.nama }}</strong>?</p>
+
+  <p class="text-muted small">Semua kelas yang diampu juga akan terpengaruh.</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger">Ya, Hapus</button>
+    <a href="{% url 'instruktur-detail' object.pk %}" class="btn btn-secondary">Batal</a>
+  </form>
+
 </div>
 {% endblock %}

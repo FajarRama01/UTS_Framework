@@ -37,7 +37,6 @@
       <h4 class="fw-bold mb-2">👨‍🏫 Instruktur</h4>
       <p class="text-muted">Lihat dan kelola data instruktur</p>
       <a class="btn btn-primary w-100" href="{% url 'instruktur-list' %}">Lihat Data</a>
-      <a href="{% url 'instruktur-create' %}" class="btn btn-success text-white">Tambah Instruktur</a>
     </div>
   </div>
 
@@ -46,7 +45,6 @@
       <h4 class="fw-bold mb-2">📚 Kelas</h4>
       <p class="text-muted">Kelola kelas pelatihan</p>
       <a class="btn btn-primary w-100" href="{% url 'kelas-list' %}">Lihat Kelas</a>
-      <a href="{% url 'kelas-create' %}" class="btn btn-success text-white">Tambah Kelas</a>
     </div>
   </div>
 
@@ -55,17 +53,14 @@
       <h4 class="fw-bold mb-2">📝 Materi</h4>
       <p class="text-muted">Kelola materi pembelajaran</p>
       <a class="btn btn-primary w-100" href="{% url 'materi-list' %}">Lihat Materi</a>
-      <a href="{% url 'materi-create' %}" class="btn btn-success text-white">Tambah Materi</a>
     </div>
   </div>
 </div>
-<!-- <div class="mb-4 d-flex gap-3">
+<div class="mb-4 d-flex gap-3">
   <a href="{% url 'instruktur-list' %}" class="btn btn-primary">Lihat Semua Instruktur</a>
   <a href="{% url 'kelas-list' %}" class="btn btn-success text-white">Lihat Semua Kelas</a>
   <a href="{% url 'materi-list' %}" class="btn btn-warning text-white">Lihat Semua Materi</a>
-</div> -->
-<!-- Card Instruktur -->
-
+</div>
 <!-- Kelas Terbaru -->
 <h3 class="fw-bold mb-4">🔥 Kelas Terbaru</h3>
 <div class="row g-3">
@@ -85,3 +80,28 @@
 </div>
 
 {% endblock %}
+<div class="col-md-4">
+    <div class="card shadow-lg border-0 rounded-4 h-100 dashboard-card">
+        <div class="card-body text-center py-4">
+  
+            <div class="icon-box mb-3">
+                <i class="bi bi-person-badge-fill text-primary" style="font-size: 3rem;"></i>
+            </div>
+  
+            <h4 class="fw-bold">Instruktur</h4>
+            <p class="text-muted">Kelola data pengajar kursus</p>
+  
+            <div class="d-grid gap-2 mt-3">
+                <!-- Menuju halaman instruktur list -->
+                <a href="{% url 'instruktur-list' %}" class="btn btn-primary">
+                    Lihat Semua Instruktur
+                </a>
+  
+                <!-- Menuju form tambah instruktur -->
+                <a href="{% url 'instruktur-create' %}" class="btn btn-outline-primary">
+                    Tambah Instruktur
+                </a>
+            </div>
+        </div>
+    </div>
+  </div>
