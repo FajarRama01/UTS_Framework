@@ -1,6 +1,6 @@
 # from django.contrib import admin
 from django.contrib import admin
-from .models import Instruktur, Kelas, Materi
+from .models import Instruktur, Kelas, Materi, Pendaftaran
 
 
 # --------------------------
@@ -47,6 +47,12 @@ class MateriAdmin(admin.ModelAdmin):
     search_fields = ('judul', 'kelas__judul')
     list_filter = ('kelas',)
     ordering = ('kelas', 'urutan')
+
+@admin.register(Pendaftaran)
+class PendaftaranAdmin(admin.ModelAdmin):
+    list_display = ('siswa', 'kelas', 'tanggal_daftar', 'selesai')
+    list_filter = ('selesai', 'tanggal_daftar')
+    search_fields = ('siswa__username', 'kelas__judul')
 
 
 # Register your models here.

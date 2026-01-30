@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 # from django.db import models
 
 
@@ -20,7 +21,7 @@ class Kelas(models.Model):
 
     judul = models.CharField(max_length=200)
     deskripsi = models.TextField()
-    instruktur = models.ForeignKey(Instruktur, on_delete=models.CASCADE, related_name="kelas")
+    instruktur = models.ForeignKey(Instruktur, on_delete=models.CASCADE, related_name="kelas_set")
     tingkat = models.CharField(max_length=20, choices=LEVEL_CHOICES)
     tanggal_mulai = models.DateField()
 
@@ -36,4 +37,19 @@ class Materi(models.Model):
 
     def __str__(self):
         return f"{self.kelas.judul} - {self.judul}"
+
+class Pendaftaran(models.Model):
+    siswa = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pendaftaran')
+    kelas = models.ForeignKey(Kelas, on_delete=models.CASCADE, related_name='pendaftar')
+    tanggal_daftar = models.DateTimeField(auto_now_add=True)
+    
+    # Opsional: Status kelulusan simpel
+    selesai = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('siswa', 'kelas') # Mencegah siswa daftar kelas yang sama 2x
+        ordering = ['-tanggal_daftar']
+
+    def __str__(self):
+        return f"{self.siswa.username} - {self.kelas.judul}"
 # Create your models here.

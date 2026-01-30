@@ -3,14 +3,17 @@ from django.shortcuts import render
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from rest_framework import viewsets
+from rest_framework import viewsets, filters, generics
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth.models import User
 
 
-from .models import Instruktur, Kelas, Materi
-from .serializers import InstrukturSerializer, KelasSerializer, MateriSerializer
+from .models import Instruktur, Kelas, Materi, Pendaftaran
+from .serializers import InstrukturSerializer, KelasSerializer, MateriSerializer, PendaftaranSerializer, RegisterSerializer
 from .forms import InstrukturForm, KelasForm, MateriForm
 
 
@@ -92,6 +95,10 @@ class InstrukturViewSet(viewsets.ModelViewSet):
     queryset = Instruktur.objects.all()
     serializer_class = InstrukturSerializer
 
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['nama', 'keahlian']
+    ordering_fields = ['nama', 'tanggal_bergabung']
+
     @action(detail=False, methods=['post'])
     def bulk(self, request):
         serializer = InstrukturSerializer(data=request.data, many=True)
@@ -104,6 +111,11 @@ class InstrukturViewSet(viewsets.ModelViewSet):
 class KelasViewSet(viewsets.ModelViewSet):
     queryset = Kelas.objects.all()
     serializer_class = KelasSerializer
+
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['tingkat', 'instruktur'] # Bisa filter: ?tingkat=beginner
+    search_fields = ['judul', 'deskripsi']       # Bisa search: ?search=python
+    ordering_fields = ['tanggal_mulai', 'judul']
 
     @action(detail=False, methods=['post'])
     def bulk(self, request):
@@ -118,6 +130,10 @@ class MateriViewSet(viewsets.ModelViewSet):
     queryset = Materi.objects.all()
     serializer_class = MateriSerializer
 
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['kelas'] # Bisa ambil materi per kelas: ?kelas=1
+    search_fields = ['judul']
+
     @action(detail=False, methods=['post'])
     def bulk(self, request):
         serializer = MateriSerializer(data=request.data, many=True)
@@ -126,6 +142,25 @@ class MateriViewSet(viewsets.ModelViewSet):
             return Response({"message": "Bulk insert berhasil", "data": serializer.data},
                             status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PendaftaranViewSet(viewsets.ModelViewSet):
+    serializer_class = PendaftaranSerializer
+    permission_classes = [IsAuthenticated] # P9: Wajib Login untuk akses ini
+
+    def get_queryset(self):
+        # Admin bisa lihat semua, Siswa hanya lihat pendaftarannya sendiri
+        if self.request.user.is_staff:
+            return Pendaftaran.objects.all()
+        return Pendaftaran.objects.filter(siswa=self.request.user)
+
+    def perform_create(self, serializer):
+        # OTOMATIS: Mengisi field 'siswa' dengan user yang sedang login
+        serializer.save(siswa=self.request.user)
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,) # PENTING: Supaya orang asing bisa daftar
+    serializer_class = RegisterSerializer
 
 def dashboard(request):
     data = {
